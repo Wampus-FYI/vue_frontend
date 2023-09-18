@@ -70,32 +70,25 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      formData: {
-        buildingName: '',
-        schoolYear: '',
-        monthlyRent: '',
-        bedrooms: '',
-        doubleOccupant: '',
-        bathrooms: '',
-        includesParking: false,
-        isUnfurnished: false,
-        noWindow: false,
-        noGym: false,
-        noPool: false,
-        experience: 3
-      }
-    }
-  },
-  methods: {
-    submitForm() {
-      console.log(this.formData)
-      // You can handle form submission logic here, for instance sending the data to a backend.
-    }
-  }
+<script lang="ts" setup>
+const formData = {
+  buildingName: '',
+  schoolYear: '',
+  monthlyRent: '',
+  bedrooms: '',
+  doubleOccupant: '',
+  bathrooms: '',
+  includesParking: false,
+  isUnfurnished: false,
+  noWindow: false,
+  noGym: false,
+  noPool: false,
+  experience: 3
+}
+
+function submitForm(){
+  console.log('the submitted data is' + formData)
+  // You can handle form submission logic here, for instance sending the data to a backend.
 }
 </script>
 
