@@ -17,28 +17,14 @@
   <h2 v-else>Housing not found</h2>
 </template>
 
-<script>
-export default {
-  props: ['housingData'],
+<script lang="ts" setup>
+import { ref } from 'vue'
+const props = defineProps (['housingData'])
+const housing = props.housingData[0] //return this.housingData.find(h => h.id === parseInt(this.id, 10));
+const data = ref('') //id: this.$route.params.id
 
-  data() {
-    return {
-      //id: this.$route.params.id,
-    }
-  },
-
-  computed: {
-    housing() {
-      return this.housingData[0]
-      //return this.housingData.find(h => h.id === parseInt(this.id, 10));
-    }
-  },
-
-  methods: {
-    goBack() {
-      //this.$router.go(-1);
-    }
-  }
+function goBack(){
+   //this.$router.go(-1);
 }
 </script>
 
