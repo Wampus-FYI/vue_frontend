@@ -1,25 +1,32 @@
 <template>
     <div>
         <navbar/>
-        <div class="table">
-            <el-table :data="tableData" style="width: 70%" class="table">
-            <el-table-column prop="date" label="Date" width="150" />
-            <el-table-column label="Delivery Info">
-                <el-table-column prop="name" label="Name" width="120" />
-                <el-table-column label="Address Info">
-                <el-table-column prop="state" label="State" width="120" />
-                <el-table-column prop="city" label="City" width="120" />
-                <el-table-column prop="address" label="Address" />
-                <el-table-column prop="zip" label="Zip" width="120" />
+        <div class="splitscreen">
+            <div class="map">
+              <Map/>
+            </div>
+            <div class="table">
+                <el-table :data="tableData" style="width: 70%" class="table">
+                <el-table-column prop="date" label="Date" width="150" />
+                <el-table-column label="Delivery Info">
+                    <el-table-column prop="name" label="Name" width="120" />
+                    <el-table-column label="Address Info">
+                    <el-table-column prop="state" label="State" width="120" />
+                    <el-table-column prop="city" label="City" width="120" />
+                    <el-table-column prop="address" label="Address" />
+                    <el-table-column prop="zip" label="Zip" width="120" />
+                    </el-table-column>
                 </el-table-column>
-            </el-table-column>
-            </el-table>
+                </el-table>
+            </div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import navbar from '../../components/Nav.vue'
+import Map from '../../components/Map.vue'
+
 interface Address {
   date: string
   name: string
@@ -90,8 +97,14 @@ const tableData: Address[] = [
 </script>
 
 <style>
-.table {
+.splitscreen {
   display: flex;
+}
+.map {
+  flex: 1;
+}
+.table {
+  flex: 2;
   justify-content: center;
   padding: 20px;
 }
