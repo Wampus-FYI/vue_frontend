@@ -86,7 +86,7 @@ const formData = {
   experience: 3
 }
 
-function submitForm(){
+function submitForm() {
   console.log('the submitted data is' + formData)
   // You can handle form submission logic here, for instance sending the data to a backend.
 }

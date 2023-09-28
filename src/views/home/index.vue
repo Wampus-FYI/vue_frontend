@@ -1,26 +1,26 @@
 <template>
-    <div>
-        <navbar/>
-        <div class="splitscreen">
-            <div class="map">
-              <Map/>
-            </div>
-            <div class="table">
-                <el-table :data="tableData" style="width: 70%" class="table">
-                <el-table-column prop="date" label="Date" width="150" />
-                <el-table-column label="Delivery Info">
-                    <el-table-column prop="name" label="Name" width="120" />
-                    <el-table-column label="Address Info">
-                    <el-table-column prop="state" label="State" width="120" />
-                    <el-table-column prop="city" label="City" width="120" />
-                    <el-table-column prop="address" label="Address" />
-                    <el-table-column prop="zip" label="Zip" width="120" />
-                    </el-table-column>
-                </el-table-column>
-                </el-table>
-            </div>
-        </div>
+  <div>
+    <navbar />
+    <div class="splitScreen">
+      <div class="map">
+        <Map></Map>
+      </div>
+      <div class="table">
+        <el-table :data="tableData" style="width: 70%" class="table">
+          <el-table-column prop="date" label="Date" width="150" />
+          <el-table-column label="Delivery Info">
+            <el-table-column prop="name" label="Name" width="120" />
+            <el-table-column label="Address Info">
+              <el-table-column prop="state" label="State" width="120" />
+              <el-table-column prop="city" label="City" width="120" />
+              <el-table-column prop="address" label="Address" />
+              <el-table-column prop="zip" label="Zip" width="120" />
+            </el-table-column>
+          </el-table-column>
+        </el-table>
+      </div>
     </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -34,7 +34,6 @@ interface Address {
   city: string
   address: string
   zip: string
-
 }
 const tableData: Address[] = [
   {
@@ -97,7 +96,7 @@ const tableData: Address[] = [
 </script>
 
 <style>
-.splitscreen {
+.splitScreen {
   display: flex;
 }
 .map {
