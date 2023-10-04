@@ -19,12 +19,12 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-const props = defineProps (['housingData'])
+const props = defineProps(['housingData'])
 const housing = props.housingData[0] //return this.housingData.find(h => h.id === parseInt(this.id, 10));
 const data = ref('') //id: this.$route.params.id
 
-function goBack(){
-   //this.$router.go(-1);
+function goBack() {
+  //this.$router.go(-1);
 }
 </script>
 
