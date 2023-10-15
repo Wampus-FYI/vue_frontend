@@ -1,6 +1,6 @@
 <template>
   <div id="map-container">
-    <l-map :zoom="zoom" :center="center" :use-global-leaflet=false>
+    <l-map :zoom="zoom" :center="center" :use-global-leaflet="false">
       <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
       <l-marker v-for="home in homes" :key="home.id" :lat-lng="home.coordinates">
         <l-popup>{{ home.name }}</l-popup>
