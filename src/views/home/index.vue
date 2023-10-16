@@ -2,95 +2,35 @@
   <div>
     <navbar />
     <div class="map">
-      <Map></Map>
+      <Map :data="tableData"></Map>
     </div>
     <div class="table">
       <el-table :data="tableData" style="width: 100%" class="table">
-        <el-table-column prop="date" label="Date" width="150" />
-        <el-table-column label="Delivery Info">
-          <el-table-column prop="name" label="Name" width="120" />
-          <el-table-column label="Address Info">
-            <el-table-column prop="state" label="State" width="120" />
-            <el-table-column prop="city" label="City" width="120" />
-            <el-table-column prop="address" label="Address" />
-            <el-table-column prop="zip" label="Zip" width="120" />
-          </el-table-column>
+        <el-table-column prop="name" label="Name" width="150" />
+        <el-table-column prop="rating" label="Rating" width="150" />
+        <el-table-column prop="rent" label="Rent" width="150">
+          <template v-slot="{ row }">
+            {{ row.rent['2022-2023'][1][1] }}
+            <!-- Displaying the first element for "2022-2023" category -->
+          </template>
         </el-table-column>
+        <el-table-column prop="address" label="Address" width="150" />
       </el-table>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { reqProperty } from '@/api/property'
 import navbar from '../../components/Nav.vue'
 import Map from '../../components/Map.vue'
+import { onMounted, ref } from 'vue'
 
-interface Address {
-  date: string
-  name: string
-  state: string
-  city: string
-  address: string
-  zip: string
-}
-const tableData: Address[] = [
-  {
-    date: '2016-05-03',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036'
-  },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036'
-  },
-  {
-    date: '2016-05-04',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036'
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036'
-  },
-  {
-    date: '2016-05-08',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036'
-  },
-  {
-    date: '2016-05-06',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036'
-  },
-  {
-    date: '2016-05-07',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036'
-  }
-]
+const tableData = ref([])
+onMounted(async () => {
+  const res = await reqProperty()
+  tableData.value = res
+})
 </script>
 
 <style>
