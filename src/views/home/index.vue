@@ -12,7 +12,14 @@
         <div class="slider">
           <div style="padding-right: 17px">$0</div>
           <!-- todo: make the slider stop displaying tooltip -->
-          <el-slider v-model="aptPrice" range size="small" :max="3000" step="100" :show-tooltip="false" />
+          <el-slider
+            v-model="aptPrice"
+            range
+            size="small"
+            :max="3000"
+            step="100"
+            :show-tooltip="false"
+          />
           <div style="padding-left: 17px">$3,000+</div>
         </div>
         <el-select v-model="numBeds" class="m-2" placeholder="# Bedrooms" size="large">
@@ -52,7 +59,7 @@
 import { reqProperty } from '@/api/property'
 import navbar from '../../components/Nav.vue'
 import Map from '../../components/Map.vue'
-import { onMounted, ref, computed } from 'vue' 
+import { onMounted, ref, computed } from 'vue'
 
 const tableData = ref([])
 onMounted(async () => {
@@ -64,15 +71,15 @@ const aptPrice = ref([0, 3000])
 //todo: fix!!!
 let aptRange = computed(() => {
   if (aptPrice.value[0] === 0 && aptPrice.value[1] === 3000) {
-    return 'Any';
+    return 'Any'
   } else if (aptPrice.value[0] === 0) {
-    return 'Less than ' + aptPrice.value[1].toString();
+    return 'Less than ' + aptPrice.value[1].toString()
   } else if (aptPrice.value[1] === 3000) {
-    return 'More than ' + aptPrice.value[0].toString();
+    return 'More than ' + aptPrice.value[0].toString()
   } else {
-    return 'Between $' + aptPrice.value[0].toString() + ' and $' + aptPrice.value[1].toString();
+    return 'Between $' + aptPrice.value[0].toString() + ' and $' + aptPrice.value[1].toString()
   }
-});
+})
 //todo: fix!!!
 let upperBound = () => {
   if (aptPrice.value[1] == 3000) {
