@@ -27,10 +27,10 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import SurveyModal from "@/components/SurveyModal.vue"; // Ensure this path points to your modal component
+import SurveyModal from '@/components/SurveyModal.vue' // Ensure this path points to your modal component
 
 const activeIndex = ref('1')
-const showModal = ref(false)  // To control the visibility of the modal
+const showModal = ref(false) // To control the visibility of the modal
 
 const handleSelect = (key: string, keyPath: string[]) => {
   // Original handling code here
@@ -53,6 +53,6 @@ const handleSelect = (key: string, keyPath: string[]) => {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; 
+  z-index: 1000;
 }
 </style>
