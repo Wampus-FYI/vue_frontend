@@ -1,10 +1,12 @@
 <template>
   <div>
     <navbar />
+    <!-- Start of Map Element -->
     <div class="map">
       <Map :data="tableData"></Map>
     </div>
     <div class="table">
+      <!-- Start of Filter Element-->
       <div class="filters">
         <el-input v-model="aptName" placeholder="Search by Apt Name" />
         <h3>Filters:</h3>
@@ -40,10 +42,19 @@
         </el-select>
         <el-button>Apply Filters</el-button>
       </div>
+      <!-- Start of Table Element -->
       <el-table :data="tableData" style="width: 100%" class="table">
         <el-table-column prop="Apt" label="Name" width="150" />
         <el-table-column prop="MedianRent" label="Median Rent" width="150" />
         <el-table-column prop="FiveStartRating" label="Rating" width="150">
+        </el-table-column>
+        <el-table-column prop="address" label="Address" width="150" />
+        <el-table-column label="Button" width="150">
+          <template v-slot="{ row }">
+            <router-link :to="{ name: 'individual_listing', params: { housingId: row.name } }">
+              <div @click="setHousingDetails(row)">Go</div>
+            </router-link>
+          </template>
         </el-table-column>
       </el-table>
     </div>
@@ -61,6 +72,7 @@ onMounted(async () => {
   const res = await reqProperty()
   tableData.value = res
 })
+
 const aptName = ref('')
 const aptPrice = ref([0, 3000])
 //todo: fix!!!
