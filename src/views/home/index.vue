@@ -41,15 +41,10 @@
         <el-button>Apply Filters</el-button>
       </div>
       <el-table :data="tableData" style="width: 100%" class="table">
-        <el-table-column prop="name" label="Name" width="150" />
-        <el-table-column prop="rating" label="Rating" width="150" />
-        <el-table-column prop="rent" label="Rent" width="150">
-          <template v-slot="{ row }">
-            {{ row.rent['2022-2023'][1][1] }}
-            <!-- Displaying the first element for "2022-2023" category -->
-          </template>
+        <el-table-column prop="Apt" label="Name" width="150" />
+        <el-table-column prop="MedianRent" label="Median Rent" width="150" />
+        <el-table-column prop="FiveStartRating" label="Rating" width="150">
         </el-table-column>
-        <el-table-column prop="address" label="Address" width="150" />
       </el-table>
     </div>
   </div>
