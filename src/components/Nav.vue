@@ -1,35 +1,58 @@
 <template>
-  <el-menu
-    :default-active="activeIndex"
-    class="navbar"
-    mode="horizontal"
-    :ellipsis="false"
-    @select="handleSelect"
-    :router="true"
-  >
-    <el-menu-item index="0">Wampus</el-menu-item>
-    <div class="flex-grow"></div>
-    <el-menu-item index="1">Sign In</el-menu-item>
-    <el-sub-menu index="2">
-      <template #title>More</template>
-      <el-menu-item index="2-1">About</el-menu-item>
-      <el-menu-item index="2-2">Team</el-menu-item>
-      <el-menu-item index="2-3" route="/survey">Submit Survey</el-menu-item>
-    </el-sub-menu>
-  </el-menu>
+  <div>
+    <el-menu
+      :default-active="activeIndex"
+      class="navbar"
+      mode="horizontal"
+      :ellipsis="false"
+      @select="handleSelect"
+    >
+      <el-menu-item index="0">Wampus</el-menu-item>
+      <div class="flex-grow"></div>
+      <el-menu-item index="1">Sign In</el-menu-item>
+      <el-sub-menu index="2">
+        <template #title>More</template>
+        <el-menu-item index="2-1">About</el-menu-item>
+        <el-menu-item index="2-2">Team</el-menu-item>
+        <el-menu-item index="2-3" @click="showModal = true">Submit Survey</el-menu-item>
+      </el-sub-menu>
+    </el-menu>
+
+    <!-- Modal Container -->
+    <div v-if="showModal" class="modal-container">
+      <SurveyModal @close="showModal = false" />
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import SurveyModal from '@/components/SurveyModal.vue' // Ensure this path points to your modal component
 
 const activeIndex = ref('1')
+const showModal = ref(false) // To control the visibility of the modal
+
 const handleSelect = (key: string, keyPath: string[]) => {
-  //console.log(key, keyPath)
+  // Original handling code here
 }
 </script>
 
 <style>
 .flex-grow {
   flex-grow: 1;
+}
+
+.modal-container {
+  /* Add your modal styles here. For example: */
+
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 </style>

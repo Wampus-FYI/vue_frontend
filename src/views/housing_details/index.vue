@@ -1,65 +1,92 @@
 <template>
-  <div v-if="housing" class="housing-details">
-    <h1>{{ housing.name }}</h1>
-    <p>{{ housing.address }}</p>
-    <p>{{ housing.city }}, {{ housing.state }}</p>
-    <p>Price: ${{ housing.price }}/month</p>
-    <p>Room Type: {{ housing.roomType }}</p>
-    <div>
-      <h3>Amenities:</h3>
-      <ul>
-        <li v-for="(amenity, index) in housing.amenities" :key="index">{{ amenity }}</li>
-      </ul>
-    </div>
-    <button @click="goBack">Back to Listings</button>
-  </div>
+  <div v-if="housing">
+    <div class="listing-container">
+      <!-- Property Name -->
+      <h1 class="property-name">{{ housing.name }}</h1>
 
-  <h2 v-else>Housing not found</h2>
+      <!-- Rating and Utilities -->
+      <el-row :gutter="20" class="info-row">
+        <el-col :span="12">
+          <h2>Rating</h2>
+          <!-- Displaying rating using Element UI star rating component -->
+          <el-rate v-model="rating" disabled></el-rate>
+          <span>{{ housing.rating }}</span>
+        </el-col>
+        <el-col :span="12">
+          <h2>Amenities</h2>
+          <el-tag v-for="item in filteredAmenitiesList" :key="item">{{ item }}</el-tag>
+        </el-col>
+      </el-row>
+
+      <!-- Location -->
+      <el-row :gutter="20" class="info-row">
+        <el-col :span="24">
+          <h2>Location</h2>
+          <p>{{ housing.address }}</p>
+        </el-col>
+      </el-row>
+
+      <!-- Scatterplot -->
+      <div class="scatterplot-section">
+        <!-- Placeholder for now -->
+        <div class="scatterplot">Scatterplot goes here</div>
+      </div>
+    </div>
+  </div>
+  <div v-else>Housing Details not found</div>
 </template>
 
-<script lang="ts" setup>
-import { ref } from 'vue'
-const props = defineProps(['housingData'])
-const housing = props.housingData[0] //return this.housingData.find(h => h.id === parseInt(this.id, 10));
-const data = ref('') //id: this.$route.params.id
+<script setup>
+import { onMounted, ref, computed } from 'vue'
+import { reqHousingDetail } from '@/api/property'
+import { useRoute } from 'vue-router'
 
-function goBack() {
-  //this.$router.go(-1);
-}
+const route = useRoute()
+const housingId = route.params.housingId
+const housing = ref(null)
+const amenitiesList = ref(['Parking included', 'Furnished', 'Gym', 'Pool'])
+onMounted(async () => {
+  const res = await reqHousingDetail(housingId)
+  housing.value = res
+})
+console.log(housing.value)
+const filteredAmenitiesList = computed(() => {
+  if (!housing.value) return []
+  return amenitiesList.value.filter((_, index) => housing.value.amenities[index])
+})
 </script>
 
 <style scoped>
-.housing-details {
-  font-family: Arial, sans-serif;
-  max-width: 800px;
-  margin: 0 auto;
+.listing-container {
   padding: 20px;
+  text-align: center; /* Center content */
 }
 
-h1 {
+.property-name {
   font-size: 36px;
-  text-align: center;
+  font-weight: bold;
   margin-bottom: 20px;
 }
 
-p {
-  font-size: 18px;
+.info-row {
+  margin-bottom: 30px; /* Add spacing between rows */
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: normal; /* To differentiate from the main title */
   margin-bottom: 10px;
+  color: #333; /* Darker color for better contrast */
 }
 
-button {
-  background-color: #ccc;
-  border: none;
-  border-radius: 3px;
-  color: #333;
-  cursor: pointer;
-  font-size: 18px;
-  margin: 20px 0;
-  padding: 10px 20px;
-  transition: background-color 0.3s ease-in-out;
+.scatterplot-section {
+  margin-top: 40px;
 }
 
-button:hover {
-  background-color: #999;
+.scatterplot {
+  width: 100%;
+  height: 400px;
+  border: 1px solid #ccc;
+  background-color: #f5f5f5;
 }
 </style>

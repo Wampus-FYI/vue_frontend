@@ -11,9 +11,11 @@ const router = createRouter({
       name: 'home'
     },
     {
-      path: '/details',
+      path: '/:housingId',
       component: () => import('@/views/housing_details/index.vue'),
-      name: 'housing_d'
+      name: 'individual_listing',
+      // Add props: true to pass the dynamic segment as a prop to the component
+      props: true
     },
     {
       path: '/survey',

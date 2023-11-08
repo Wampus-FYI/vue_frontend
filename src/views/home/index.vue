@@ -1,10 +1,12 @@
 <template>
   <div>
     <navbar />
+    <!-- Start of Map Element -->
     <div class="map">
       <Map :data="tableData"></Map>
     </div>
     <div class="table">
+      <!-- Start of Filter Element-->
       <div class="filters">
         <el-input v-model="aptName" placeholder="Search by Apt Name" />
         <h3>Filters:</h3>
@@ -12,7 +14,14 @@
         <div class="slider">
           <div style="padding-right: 17px">$0</div>
           <!-- todo: make the slider stop displaying tooltip -->
-          <el-slider v-model="aptPrice" range size="small" :max="3000" step="100" :show-tooltip="false" />
+          <el-slider
+            v-model="aptPrice"
+            range
+            size="small"
+            :max="3000"
+            step="100"
+            :show-tooltip="false"
+          />
           <div style="padding-left: 17px">$3,000+</div>
         </div>
         <el-select v-model="numBeds" class="m-2" placeholder="# Bedrooms" size="large">
@@ -33,6 +42,7 @@
         </el-select>
         <el-button>Apply Filters</el-button>
       </div>
+      <!-- Start of Table Element -->
       <el-table :data="tableData" style="width: 100%" class="table">
         <el-table-column prop="name" label="Name" width="150" />
         <el-table-column prop="rating" label="Rating" width="150" />
@@ -43,6 +53,13 @@
           </template>
         </el-table-column>
         <el-table-column prop="address" label="Address" width="150" />
+        <el-table-column label="Button" width="150">
+          <template v-slot="{ row }">
+            <router-link :to="{ name: 'individual_listing', params: { housingId: row.name } }">
+              <div @click="setHousingDetails(row)">Go</div>
+            </router-link>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
   </div>
@@ -52,27 +69,28 @@
 import { reqProperty } from '@/api/property'
 import navbar from '../../components/Nav.vue'
 import Map from '../../components/Map.vue'
-import { onMounted, ref, computed } from 'vue' 
+import { onMounted, ref, computed } from 'vue'
 
 const tableData = ref([])
 onMounted(async () => {
   const res = await reqProperty()
   tableData.value = res
 })
+
 const aptName = ref('')
 const aptPrice = ref([0, 3000])
 //todo: fix!!!
 let aptRange = computed(() => {
   if (aptPrice.value[0] === 0 && aptPrice.value[1] === 3000) {
-    return 'Any';
+    return 'Any'
   } else if (aptPrice.value[0] === 0) {
-    return 'Less than ' + aptPrice.value[1].toString();
+    return 'Less than ' + aptPrice.value[1].toString()
   } else if (aptPrice.value[1] === 3000) {
-    return 'More than ' + aptPrice.value[0].toString();
+    return 'More than ' + aptPrice.value[0].toString()
   } else {
-    return 'Between $' + aptPrice.value[0].toString() + ' and $' + aptPrice.value[1].toString();
+    return 'Between $' + aptPrice.value[0].toString() + ' and $' + aptPrice.value[1].toString()
   }
-});
+})
 //todo: fix!!!
 let upperBound = () => {
   if (aptPrice.value[1] == 3000) {
