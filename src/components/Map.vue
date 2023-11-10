@@ -2,8 +2,8 @@
   <div id="map-container">
     <l-map :zoom="zoom" :center="center" :use-global-leaflet="false">
       <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-      <l-marker v-for="apt in data" :key="apt.id" :lat-lng="apt.coordinates">
-        <l-popup>{{ apt.name }}</l-popup>
+      <l-marker v-for="apt in data" :key="apt.Apt" :lat-lng="apt.Coordinates">
+        <l-popup>{{ apt.Apt }}</l-popup>
       </l-marker>
     </l-map>
   </div>

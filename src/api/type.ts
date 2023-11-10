@@ -1,9 +1,8 @@
 export interface Property {
-  id: String
-  name: String
-  rating: Number
-  rent: []
-  link: String
+  $oid: String
+  Apt: String
+  FiveStartRating: Number
+  Rent: Number
   coordinates: [Number]
   address: String
   amenities: [Boolean]
