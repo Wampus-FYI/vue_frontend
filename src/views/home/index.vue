@@ -51,8 +51,8 @@
         <el-table-column prop="address" label="Address" width="150" />
         <el-table-column label="Button" width="150">
           <template v-slot="{ row }">
-            <router-link :to="{ name: 'individual_listing', params: { housingId: row.name } }">
-              <div @click="setHousingDetails(row)">Go</div>
+            <router-link :to="{ name: 'individual_listing', params: { housingId: row.Apt } }">
+              <div>Go</div>
             </router-link>
           </template>
         </el-table-column>
@@ -169,3 +169,16 @@ let filteredData = () => {
   display: flex;
 }
 </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
