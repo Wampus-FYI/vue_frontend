@@ -9,13 +9,7 @@
     >
       <el-menu-item index="0">Wampus</el-menu-item>
       <div class="flex-grow"></div>
-      <el-menu-item index="1">Sign In</el-menu-item>
-      <el-sub-menu index="2">
-        <template #title>More</template>
-        <el-menu-item index="2-1">About</el-menu-item>
-        <el-menu-item index="2-2">Team</el-menu-item>
-        <el-menu-item index="2-3" @click="showModal = true">Submit Survey</el-menu-item>
-      </el-sub-menu>
+      <el-menu-item index="2-3" @click="showModal = true">Submit Survey</el-menu-item>
     </el-menu>
 
     <!-- Modal Container -->

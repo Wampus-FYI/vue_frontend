@@ -3,12 +3,12 @@
     <navbar />
     <!-- Start of Map Element -->
     <div class="map">
-      <Map :data="tableData"></Map>
+      <Map :data="filteredData"></Map>
     </div>
     <div class="table">
       <!-- Start of Filter Element-->
       <div class="filters">
-        <el-input v-model="aptName" placeholder="Search by Apt Name" />
+        <el-input v-model="aptName" placeholder="Search By Name" />
         <h3>Filters:</h3>
         <div>price range: {{ aptRange }}</div>
         <div class="slider">
@@ -19,36 +19,19 @@
             range
             size="small"
             :max="3000"
-            step="100"
+            :step="100"
             :show-tooltip="false"
           />
           <div style="padding-left: 17px">$3,000+</div>
         </div>
-        <el-select v-model="numBeds" class="m-2" placeholder="# Bedrooms" size="large">
-          <el-option
-            v-for="item in bedOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
-        <el-select v-model="numBaths" class="m-2" placeholder="# Bathrooms" size="large">
-          <el-option
-            v-for="item in bathOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
-        <el-button>Apply Filters</el-button>
       </div>
       <!-- Start of Table Element -->
-      <el-table :data="tableData" style="width: 100%" class="table">
+      <el-table :data="filteredData" style="width: 100%" class="table">
         <el-table-column prop="Apt" label="Name" width="150" />
         <el-table-column prop="MedianRent" label="Median Rent" width="150" />
         <el-table-column prop="FiveStartRating" label="Rating" width="150">
         </el-table-column>
-        <el-table-column prop="address" label="Address" width="150" />
+        <el-table-column prop="Address" label="Address" width="150" />
         <el-table-column label="Button" width="150">
           <template v-slot="{ row }">
             <router-link :to="{ name: 'individual_listing', params: { housingId: row.Apt } }">
@@ -68,9 +51,11 @@ import Map from '../../components/Map.vue'
 import { onMounted, ref, computed } from 'vue'
 
 const tableData = ref([])
+let aptNames = ref([])
 onMounted(async () => {
   const res = await reqProperty()
   tableData.value = res
+  aptNames.value = extractNames(res)
 })
 
 const aptName = ref('')
@@ -94,58 +79,33 @@ let upperBound = () => {
   }
   return true
 }
-const numBeds = ref('')
-const bedOptions = [
-  {
-    value: '1',
-    label: '1 Bed'
-  },
-  {
-    value: '2',
-    label: '2 Beds'
-  },
-  {
-    value: '3',
-    label: '3 Beds'
-  },
-  {
-    value: '4',
-    label: '4 Beds'
-  },
-  {
-    value: '5',
-    label: '5+ Beds'
-  }
-]
 
-const numBaths = ref('')
-const bathOptions = [
-  {
-    value: '1',
-    label: '1 Bath'
-  },
-  {
-    value: '2',
-    label: '2 Baths'
-  },
-  {
-    value: '3',
-    label: '3 Baths'
-  },
-  {
-    value: '4',
-    label: '4 Baths'
-  },
-  {
-    value: '5',
-    label: '5+ Baths'
-  }
-]
-
-//todo: write logic
-let filteredData = () => {
-  //return tableData filtered by tableFilters
+const filteredData = computed(() => {
+  const minPrice = aptPrice.value[0];
+  const maxPrice = aptPrice.value[1];
+  let searchMatches = tableData.value
+  if (aptName.value.length > 0) {
+  searchMatches = tableData.value.filter(item => {
+    console.log(aptName.value);
+    console.log(item.Apt);
+    return item.Apt.toLowerCase().includes(aptName.value.toLowerCase());
+  });
 }
+
+console.log(searchMatches);
+
+return searchMatches.filter(item => {
+  const medianRent = parseFloat(item.MedianRent);
+  return medianRent >= minPrice && medianRent <= maxPrice;
+});
+
+});
+
+function extractNames(data) {
+  return data.map(item => item.Apt)
+}
+
+
 </script>
 
 <style>
