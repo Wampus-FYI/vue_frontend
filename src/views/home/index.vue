@@ -86,13 +86,10 @@ const filteredData = computed(() => {
   let searchMatches = tableData.value
   if (aptName.value.length > 0) {
   searchMatches = tableData.value.filter(item => {
-    console.log(aptName.value);
-    console.log(item.Apt);
     return item.Apt.toLowerCase().includes(aptName.value.toLowerCase());
   });
 }
 
-console.log(searchMatches);
 
 return searchMatches.filter(item => {
   const medianRent = parseFloat(item.MedianRent);
