@@ -29,8 +29,7 @@
       <el-table :data="filteredData" style="width: 100%" class="table">
         <el-table-column prop="Apt" label="Name" width="150" />
         <el-table-column prop="MedianRent" label="Median Rent" width="150" />
-        <el-table-column prop="FiveStartRating" label="Rating" width="150">
-        </el-table-column>
+        <el-table-column prop="FiveStartRating" label="Rating" width="150"> </el-table-column>
         <el-table-column prop="Address" label="Address" width="150" />
         <el-table-column label="Button" width="150">
           <template v-slot="{ row }">
@@ -81,28 +80,24 @@ let upperBound = () => {
 }
 
 const filteredData = computed(() => {
-  const minPrice = aptPrice.value[0];
-  const maxPrice = aptPrice.value[1];
+  const minPrice = aptPrice.value[0]
+  const maxPrice = aptPrice.value[1]
   let searchMatches = tableData.value
   if (aptName.value.length > 0) {
-  searchMatches = tableData.value.filter(item => {
-    return item.Apt.toLowerCase().includes(aptName.value.toLowerCase());
-  });
-}
+    searchMatches = tableData.value.filter((item) => {
+      return item.Apt.toLowerCase().includes(aptName.value.toLowerCase())
+    })
+  }
 
-
-return searchMatches.filter(item => {
-  const medianRent = parseFloat(item.MedianRent);
-  return medianRent >= minPrice && medianRent <= maxPrice;
-});
-
-});
+  return searchMatches.filter((item) => {
+    const medianRent = parseFloat(item.MedianRent)
+    return medianRent >= minPrice && medianRent <= maxPrice
+  })
+})
 
 function extractNames(data) {
-  return data.map(item => item.Apt)
+  return data.map((item) => item.Apt)
 }
-
-
 </script>
 
 <style>
@@ -126,16 +121,3 @@ function extractNames(data) {
   display: flex;
 }
 </style>
-
-
-
-
-
-
-
-
-
-
-
-
-
