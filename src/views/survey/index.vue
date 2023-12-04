@@ -12,7 +12,7 @@
     <form @submit.prevent="submitForm">
       <div>
         <label>Which apartment building do you/have you lived in? </label>
-        <select v-model="formData.buildingName" name="aptBuilding" required>
+        <select v-model="formData.Apt" name="aptBuilding" required>
           <option value="">-- Select Building --</option>
           <option v-for="building in apartmentBuildings" :key="building" :value="building">
             {{ building }}
@@ -22,7 +22,7 @@
 
       <div>
         <label>What school year did you live there? </label>
-        <select v-model="formData.schoolYear" name="schoolYear" required>
+        <select v-model="formData.Year" name="schoolYear" required>
           <option value="">-- Select Year --</option>
           <option>2023-2024</option>
           <option>2022-2023</option>
@@ -35,32 +35,32 @@
 
       <div>
         <label>What was your monthly rent amount? </label>
-        <input v-model="formData.monthlyRent" required />
+        <input v-model="formData.Rent" required />
       </div>
 
       <div>
         <label>How many bedrooms were in your apartment? </label>
-        <input v-model="formData.bedrooms" required />
+        <input v-model="formData.NumBedrooms" required />
       </div>
 
       <div>
         <label>Was your apartment double occupant? </label>
-        <input type="radio" v-model="formData.doubleOccupant" value="Yes" /> Yes
-        <input type="radio" v-model="formData.doubleOccupant" value="No" /> No
+        <input type="radio" v-model="formData.DoubleOcc" value="Yes" /> Yes
+        <input type="radio" v-model="formData.DoubleOcc" value="No" /> No
       </div>
 
       <div>
         <label>How many bathrooms were in your apartment? </label>
-        <input v-model="formData.bathrooms" required />
+        <input v-model="formData.NumBathrooms" required />
       </div>
 
       <div>
         <label>Please select the below that applied to your apartment</label>
-        <input type="checkbox" v-model="formData.includesParking" /> Includes a parking lot
-        <input type="checkbox" v-model="formData.isUnfurnished" /> Unfurnished
-        <input type="checkbox" v-model="formData.noWindow" /> No window
-        <input type="checkbox" v-model="formData.noGym" /> No gym
-        <input type="checkbox" v-model="formData.noPool" /> No pool
+        <input type="checkbox" v-model="amenities.includesParking" /> Includes a parking lot
+        <input type="checkbox" v-model="amenities.isUnfurnished" /> Unfurnished
+        <input type="checkbox" v-model="amenities.noWindow" /> No window
+        <input type="checkbox" v-model="amenities.noGym" /> No gym
+        <input type="checkbox" v-model="amenities.noPool" /> No pool
       </div>
 
       <div class="experience-slider">
@@ -68,8 +68,8 @@
           On a scale of 1 (horrible) to 5 (great), how was your overall experience at the building?
         </label>
         <div class="slider-container">
-          <input type="range" v-model.number="formData.experience" min="1" max="5" required />
-          <span>{{ formData.experience }}</span>
+          <input type="range" v-model.number="formData.FiveStartRating" min="1" max="5" required />
+          <span>{{ formData.FiveStartRating }}</span>
         </div>
       </div>
 
@@ -83,18 +83,22 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 const formData = ref({
-  buildingName: '',
-  schoolYear: '',
-  monthlyRent: '',
-  bedrooms: '',
-  doubleOccupant: '',
-  bathrooms: '',
+  Apt: '',
+  DoubleOcc: '',
+  FiveStartRating: 3,
+  NumBathrooms: '',
+  NumBedrooms: '',
+  Rent: '',
+  Amenities:[],
+  Year: ''
+})
+
+const amenities = ref({
   includesParking: false,
   isUnfurnished: false,
   noWindow: false,
   noGym: false,
   noPool: false,
-  experience: 3
 })
 
 const apartmentBuildings = [
@@ -160,7 +164,13 @@ const apartmentBuildings = [
 ]
 
 function submitForm() {
-  console.log('the submitted data is', formData)
+  formData.value.Amenities = [
+    amenities.value.includesParking, 
+   !amenities.value.isUnfurnished,
+   !amenities.value.noGym,
+   !amenities.value.noPool
+]
+  console.log(formData.value)
   // You can handle form submission logic here, for instance sending the data to a backend.
 }
 </script>
